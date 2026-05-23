@@ -42,7 +42,10 @@ class Peripheral(wiring.Component):
             address: Controls the current device's USB address. Should be written after a SET_ADDRESS request
                      is received. Automatically resets back to zero on a USB reset.
         """
-        address : csr.Field(csr.action.RW,      unsigned(8))
+        def __init__(self):
+            super().__init__({
+                "address": csr.Field(csr.action.RW, unsigned(8)),
+            })
 
     class Endpoint(csr.Register, access="rw"):
         """ Endpoint register
@@ -51,8 +54,11 @@ class Peripheral(wiring.Component):
             at once. That is, multiple endpoints can be ready to receive data at a time. See the `prime`
             and `enable` bits for usage.
         """
-        number : csr.Field(csr.action.RW,      unsigned(4))
-        _0     : csr.Field(csr.action.ResRAW0, unsigned(4))
+        def __init__(self):
+            super().__init__({
+                "number": csr.Field(csr.action.RW,      unsigned(4)),
+                "_0":     csr.Field(csr.action.ResRAW0, unsigned(4)),
+            })
 
     class Enable(csr.Register, access="w"):
         """ Enable register
@@ -61,8 +67,11 @@ class Peripheral(wiring.Component):
                      automatically cleared on receive in order to give the controller time to read data
                      from the FIFO. It must be re-enabled once the FIFO has been emptied.
         """
-        enabled : csr.Field(csr.action.W,       unsigned(1))
-        _0      : csr.Field(csr.action.ResRAW0, unsigned(7))
+        def __init__(self):
+            super().__init__({
+                "enabled": csr.Field(csr.action.W,       unsigned(1)),
+                "_0":      csr.Field(csr.action.ResRAW0, unsigned(7)),
+            })
 
     class Prime(csr.Register, access="w"):
         """ Prime register
@@ -85,8 +94,11 @@ class Peripheral(wiring.Component):
                     Only one transaction / data packet is captured per `enable` write; repeated enabling is
                     necessary to capture multiple packets.
         """
-        primed : csr.Field(csr.action.W,       unsigned(1))
-        _0     : csr.Field(csr.action.ResRAW0, unsigned(7))
+        def __init__(self):
+            super().__init__({
+                "primed": csr.Field(csr.action.W,       unsigned(1)),
+                "_0":     csr.Field(csr.action.ResRAW0, unsigned(7)),
+            })
 
     class Stall(csr.Register, access="w"):
         """ Stall register
@@ -96,16 +108,22 @@ class Peripheral(wiring.Component):
                      multiple endpoints can be stalled at once by writing their respective endpoint numbers
                      into `epno` register and then setting their `stall` bits.
         """
-        stalled : csr.Field(csr.action.W,       unsigned(1))
-        _0      : csr.Field(csr.action.ResRAW0, unsigned(7))
+        def __init__(self):
+            super().__init__({
+                "stalled": csr.Field(csr.action.W,       unsigned(1)),
+                "_0":      csr.Field(csr.action.ResRAW0, unsigned(7)),
+            })
 
     class Pid(csr.Register, access="w"):
         """ Pid register
 
             toggle: Sets the current PID toggle bit for the given endpoint.
         """
-        toggle : csr.Field(csr.action.W,       unsigned(1))
-        _0     : csr.Field(csr.action.ResRAW0, unsigned(7))
+        def __init__(self):
+            super().__init__({
+                "toggle": csr.Field(csr.action.W,       unsigned(1)),
+                "_0":     csr.Field(csr.action.ResRAW0, unsigned(7)),
+            })
 
     class Status(csr.Register, access="r"):
         """ Status register
@@ -115,19 +133,25 @@ class Peripheral(wiring.Component):
             have: `1` iff data is available in the FIFO.
             pid:  Contains the current PID toggle bit for the given endpoint.
         """
-        epno : csr.Field(csr.action.R,  unsigned(4))
-        _0   : csr.Field(csr.action.ResRAW0, unsigned(4))
-        have : csr.Field(csr.action.R,       unsigned(1))
-        pid  : csr.Field(csr.action.R,       unsigned(1))
-        _1   : csr.Field(csr.action.ResRAW0, unsigned(6))
+        def __init__(self):
+            super().__init__({
+                "epno": csr.Field(csr.action.R,        unsigned(4)),
+                "_0":   csr.Field(csr.action.ResRAW0, unsigned(4)),
+                "have": csr.Field(csr.action.R,       unsigned(1)),
+                "pid":  csr.Field(csr.action.R,       unsigned(1)),
+                "_1":   csr.Field(csr.action.ResRAW0, unsigned(6)),
+            })
 
     class Reset(csr.Register, access="w"):
         """ Reset register
 
             fifo: Local reset for the OUT handler; clears the out FIFO.
         """
-        fifo : csr.Field(csr.action.W,       unsigned(1))
-        _0   : csr.Field(csr.action.ResRAW0, unsigned(7))
+        def __init__(self):
+            super().__init__({
+                "fifo": csr.Field(csr.action.W,       unsigned(1)),
+                "_0":   csr.Field(csr.action.ResRAW0, unsigned(7)),
+            })
 
     class Data(csr.Register, access="r"):
         """ Data register
@@ -137,7 +161,10 @@ class Peripheral(wiring.Component):
 
             byte:    Contains the most recently received byte.
         """
-        byte : csr.Field(csr.action.R,       unsigned(8))
+        def __init__(self):
+            super().__init__({
+                "byte": csr.Field(csr.action.R, unsigned(8)),
+            })
 
 
     def __init__(self, max_packet_size=512):
