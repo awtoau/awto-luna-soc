@@ -44,7 +44,10 @@ class SPIController(wiring.Component):
 
             select : SPI chip select signal.
         """
-        select : csr.Field(csr.action.W, unsigned(1))
+        def __init__(self):
+            super().__init__({
+                "select": csr.Field(csr.action.W, unsigned(1))
+            })
 
     class Status(csr.Register, access="r"):
         """Status register
@@ -52,8 +55,11 @@ class SPIController(wiring.Component):
              rx_ready : RX FIFO contains data.
              tx_ready : TX FIFO ready to receive data.
         """
-        rx_ready : csr.Field(csr.action.R, unsigned(1))
-        tx_ready : csr.Field(csr.action.R, unsigned(1))
+        def __init__(self):
+            super().__init__({
+                "rx_ready": csr.Field(csr.action.R, unsigned(1)),
+                "tx_ready": csr.Field(csr.action.R, unsigned(1))
+            })
 
     class Data(csr.Register, access="rw"):
         """Data register
