@@ -4,7 +4,8 @@
 # Copyright (c) 2024 Great Scott Gadgets <info@greatscottgadgets.com>
 # SPDX-License-Identifier: BSD-3-Clause
 
-# Based on code from LiteSPI
+# SPI Flash Controller - Based on LiteSPI (https://github.com/litex-hub/litespi)
+# GSG adapted LiteSPI's SPI controller design for LUNA-SoC with Amaranth HDL
 
 from amaranth             import Module, DomainRenamer, Signal, unsigned
 from amaranth.lib         import wiring
