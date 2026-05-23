@@ -340,6 +340,10 @@ class Multiplexer(wiring.Component):
                 :attr:`~Multiplexer._Shadow.size`, it replaces the latter.
             """
             assert isinstance(reg_range, range)
+            # If ranges have been prepared (frozen), convert back to set to allow adding
+            if isinstance(self._ranges, frozenset):
+                self._ranges = set(self._ranges)
+                self._chunks = None  # Reset chunks since we're adding new ranges
             self._ranges.add(reg_range)
             reg_size   = 2 ** ceil_log2(reg_range.stop - reg_range.start)
             self._size = max(self._size, reg_size)
