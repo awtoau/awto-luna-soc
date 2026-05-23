@@ -54,11 +54,17 @@ class Peripheral(wiring.Component):
 
     class TxReady(csr.Register, access="r"):
         """is '1' when 1-byte transmit buffer is empty"""
-        txe: csr.Field(csr.action.R, unsigned(1))
+        def __init__(self):
+            super().__init__({
+                "txe": csr.Field(csr.action.R, unsigned(1))
+            })
 
     class RxAvail(csr.Register, access="r"):
         """is '1' when 1-byte receive buffer is full; reset by a read from rx_data"""
-        rxe: csr.Field(csr.action.R, unsigned(1))
+        def __init__(self):
+            super().__init__({
+                "rxe": csr.Field(csr.action.R, unsigned(1))
+            })
 
     class BaudRate(csr.Register, access="rw"):
         """baud rate divider, defaults to init"""
