@@ -49,11 +49,8 @@ class Peripheral(wiring.Component):
                     a zero-length packet is generated.
                     Note that any IN requests that do not match the endpoint number are automatically NAK'd.
         """
-        def __init__(self):
-            super().__init__({
-                "number": csr.Field(csr.action.W,       unsigned(4)),
-                "_0":     csr.Field(csr.action.ResRAW0, unsigned(4)),
-            })
+        number : csr.Field(csr.action.W,       unsigned(4))
+        _0     : csr.Field(csr.action.ResRAW0, unsigned(4))
 
     class Stall(csr.Register, access="w"):
         """ Stall register
@@ -62,22 +59,16 @@ class Peripheral(wiring.Component):
                      STALL token, rather than DATA or a NAK.
                      For EP0, this field will automatically be cleared when a new SETUP token is received.
         """
-        def __init__(self):
-            super().__init__({
-                "stalled": csr.Field(csr.action.W,       unsigned(1)),
-                "_0":      csr.Field(csr.action.ResRAW0, unsigned(7)),
-            })
+        stalled : csr.Field(csr.action.W,       unsigned(1))
+        _0      : csr.Field(csr.action.ResRAW0, unsigned(7))
 
     class Pid(csr.Register, access="w"):
         """ Pid register
 
             toggle: Sets the current PID toggle bit for the given endpoint.
         """
-        def __init__(self):
-            super().__init__({
-                "toggle": csr.Field(csr.action.W,       unsigned(1)),
-                "_0":     csr.Field(csr.action.ResRAW0, unsigned(7)),
-            })
+        toggle : csr.Field(csr.action.W,       unsigned(1))
+        _0     : csr.Field(csr.action.ResRAW0, unsigned(7))
 
     class Status(csr.Register, access="r"):
         """ Status register
@@ -89,27 +80,21 @@ class Peripheral(wiring.Component):
             have: This value is `1` if data is present in the transmit FIFO.
             pid:  Contains the current PID toggle bit for the given endpoint.
         """
-        def __init__(self):
-            super().__init__({
-                "nak":  csr.Field(csr.action.R,        unsigned(16)),
-                "epno": csr.Field(csr.action.R,        unsigned(4)),
-                "_0":   csr.Field(csr.action.ResRAW0,  unsigned(4)),
-                "idle": csr.Field(csr.action.R,        unsigned(1)),
-                "have": csr.Field(csr.action.R,        unsigned(1)),
-                "pid":  csr.Field(csr.action.R,        unsigned(1)),
-                "_1":   csr.Field(csr.action.ResRAW0,  unsigned(5)),
-            })
+        nak  : csr.Field(csr.action.R,        unsigned(16))
+        epno : csr.Field(csr.action.R,        unsigned(4))
+        _0   : csr.Field(csr.action.ResRAW0,  unsigned(4))
+        idle : csr.Field(csr.action.R,        unsigned(1))
+        have : csr.Field(csr.action.R,        unsigned(1))
+        pid  : csr.Field(csr.action.R,        unsigned(1))
+        _1   : csr.Field(csr.action.ResRAW0,  unsigned(5))
 
     class Reset(csr.Register, access="w"):
         """ Reset register
 
             fifo: A write to this field Clears the FIFO without transmitting.
         """
-        def __init__(self):
-            super().__init__({
-                "fifo": csr.Field(csr.action.W,       unsigned(1)),
-                "_1":   csr.Field(csr.action.ResRAW0, unsigned(7)),
-            })
+        fifo : csr.Field(csr.action.W,       unsigned(1))
+        _1   : csr.Field(csr.action.ResRAW0, unsigned(7))
 
     class Data(csr.Register, access="w"):
         """ Data register
@@ -118,10 +103,7 @@ class Peripheral(wiring.Component):
             be transmitted. This queue should only ever contain a single packet; it is the software's
             responsibility to handle breaking requests down into packets.
         """
-        def __init__(self):
-            super().__init__({
-                "byte": csr.Field(csr.action.W, unsigned(8)),
-            })
+        byte : csr.Field(csr.action.W, unsigned(8)) # desc="" ?
 
 
     def __init__(self, max_packet_size=512):
