@@ -46,10 +46,7 @@ class Peripheral(wiring.Component):
             address: Controls the current device's USB address. Should be written after a SET_ADDRESS
                      request is received. Automatically resets back to zero on a USB reset.
         """
-        def __init__(self):
-            super().__init__({
-                "address": csr.Field(csr.action.W, unsigned(8)),
-            })
+        address : csr.Field(csr.action.W,       unsigned(8))
 
     class Status(csr.Register, access="r"):
         """ Status register
@@ -58,13 +55,10 @@ class Peripheral(wiring.Component):
             epno:    The endpoint number associated with the most recently captured SETUP packet.
             have:    `1` iff data is available in the FIFO.
         """
-        def __init__(self):
-            super().__init__({
-                "address": csr.Field(csr.action.R,       unsigned(8)),
-                "epno":    csr.Field(csr.action.R,       unsigned(4)),
-                "have":    csr.Field(csr.action.R,       unsigned(1)),
-                "_0":      csr.Field(csr.action.ResRAW0, unsigned(3)),
-            })
+        address : csr.Field(csr.action.R,       unsigned(8))
+        epno    : csr.Field(csr.action.R,       unsigned(4))
+        have    : csr.Field(csr.action.R,       unsigned(1))
+        _0      : csr.Field(csr.action.ResRAW0, unsigned(3))
 
     class Reset(csr.Register, access="w"):
         """ Reset register
@@ -72,11 +66,8 @@ class Peripheral(wiring.Component):
             fifo: Local reset control for the SETUP handler; writing a '1' to this register clears
                   the handler state.
         """
-        def __init__(self):
-            super().__init__({
-                "fifo":    csr.Field(csr.action.W,       unsigned(1)),
-                "_0":      csr.Field(csr.action.ResRAW0, unsigned(7)),
-            })
+        fifo    : csr.Field(csr.action.W,       unsigned(1))
+        _0      : csr.Field(csr.action.ResRAW0, unsigned(7))
 
     class Data(csr.Register, access="r"):
         """ Data register
@@ -85,10 +76,7 @@ class Peripheral(wiring.Component):
             Reading a byte from this register advances the FIFO. The first eight bytes read
             from this contain the core SETUP packet.
         """
-        def __init__(self):
-            super().__init__({
-                "byte": csr.Field(csr.action.R, unsigned(8)),
-            })
+        byte : csr.Field(csr.action.R, unsigned(8))
 
 
     def __init__(self):

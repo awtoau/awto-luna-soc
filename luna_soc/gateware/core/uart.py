@@ -40,31 +40,19 @@ class PinSignature(wiring.Signature):
 class Peripheral(wiring.Component):
     class TxData(csr.Register, access="w"):
         """valid to write to when tx_rdy is high, will trigger a transmit"""
-        def __init__(self):
-            super().__init__({
-                "data": csr.Field(csr.action.W, unsigned(8))
-            })
+        data: csr.Field(csr.action.W, unsigned(8))
 
     class RxData(csr.Register, access="r"):
         """valid to read from when rx_avail is high, last received byte"""
-        def __init__(self):
-            super().__init__({
-                "data": csr.Field(csr.action.R, unsigned(8))
-            })
+        data: csr.Field(csr.action.R, unsigned(8))
 
     class TxReady(csr.Register, access="r"):
         """is '1' when 1-byte transmit buffer is empty"""
-        def __init__(self):
-            super().__init__({
-                "txe": csr.Field(csr.action.R, unsigned(1))
-            })
+        txe: csr.Field(csr.action.R, unsigned(1))
 
     class RxAvail(csr.Register, access="r"):
         """is '1' when 1-byte receive buffer is full; reset by a read from rx_data"""
-        def __init__(self):
-            super().__init__({
-                "rxe": csr.Field(csr.action.R, unsigned(1))
-            })
+        rxe: csr.Field(csr.action.R, unsigned(1))
 
     class BaudRate(csr.Register, access="rw"):
         """baud rate divider, defaults to init"""
