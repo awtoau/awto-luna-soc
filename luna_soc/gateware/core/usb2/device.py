@@ -45,14 +45,11 @@ class Peripheral(wiring.Component):
             low_speed_only:  Set this bit to '1' to force the device to operate at low speed.
             full_speed_only: Set this bit to '1' to force the device to operate at full speed.
         """
-        def __init__(self):
-            super().__init__({
-                "connect":         csr.Field(csr.action.RW,      unsigned(1)),
-                "_0":              csr.Field(csr.action.ResRAW0, unsigned(7)),
-                "low_speed_only":  csr.Field(csr.action.RW,      unsigned(1)),
-                "full_speed_only": csr.Field(csr.action.RW,      unsigned(1)),
-                "_1":              csr.Field(csr.action.ResRAW0, unsigned(6)),
-            })
+        connect         : csr.Field(csr.action.RW,      unsigned(1))
+        _0              : csr.Field(csr.action.ResRAW0, unsigned(7))
+        low_speed_only  : csr.Field(csr.action.RW,      unsigned(1))
+        full_speed_only : csr.Field(csr.action.RW,      unsigned(1))
+        _1              : csr.Field(csr.action.ResRAW0, unsigned(6))
 
     class Status(csr.Register, access="r"):
         """Status register
@@ -60,11 +57,8 @@ class Peripheral(wiring.Component):
             speed: Indicates the current speed of the USB device. 0 indicates High; 1 => Full,
                    2 => Low, and 3 => SuperSpeed (incl SuperSpeed+).
         """
-        def __init__(self):
-            super().__init__({
-                "speed": csr.Field(csr.action.R,       unsigned(2)),
-                "_0":    csr.Field(csr.action.ResRAW0, unsigned(6)),
-            })
+        speed : csr.Field(csr.action.R,       unsigned(2))
+        _0    : csr.Field(csr.action.ResRAW0, unsigned(6))
 
     def __init__(self):
         # I/O ports  FIXME ambiguity - private or signature ?

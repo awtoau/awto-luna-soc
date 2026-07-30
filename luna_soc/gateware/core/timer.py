@@ -16,17 +16,11 @@ from amaranth_soc         import csr, event
 class Peripheral(wiring.Component):
     class Enable(csr.Register, access="rw"):
         """Counter enable"""
-        def __init__(self):
-            super().__init__({
-                "enable": csr.Field(csr.action.RW, unsigned(1))
-            })
+        enable: csr.Field(csr.action.RW, unsigned(1))
 
     class Mode(csr.Register, access="rw"):
         """Timer mode. When ``periodic`` is set to 1 the counter will automatically be reset to the reload value."""
-        def __init__(self):
-            super().__init__({
-                "periodic": csr.Field(csr.action.RW, unsigned(1))
-            })
+        periodic: csr.Field(csr.action.RW, unsigned(1))
 
     class Reload(csr.Register, access="rw"):
         """Reload value of counter."""

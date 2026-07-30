@@ -14,19 +14,13 @@ from amaranth_soc          import csr
 class Peripheral(wiring.Component):
     """ A simple peripheral interface to the ila. """
     class Control(csr.Register, access="w"):
-        def __init__(self):
-            super().__init__({
-                "trigger": csr.Field(csr.action.W, unsigned(1)),
-            })
+        trigger: csr.Field(csr.action.W, unsigned(1))
 
     class Trace(csr.Register, access="w"):
-        def __init__(self):
-            super().__init__({
-                "a": csr.Field(csr.action.W, unsigned(8)),
-                "b": csr.Field(csr.action.W, unsigned(8)),
-                "c": csr.Field(csr.action.W, unsigned(8)),
-                "d": csr.Field(csr.action.W, unsigned(8)),
-            })
+        a: csr.Field(csr.action.W, unsigned(8))
+        b: csr.Field(csr.action.W, unsigned(8))
+        c: csr.Field(csr.action.W, unsigned(8))
+        d: csr.Field(csr.action.W, unsigned(8))
 
     def __init__(self):
         # registers

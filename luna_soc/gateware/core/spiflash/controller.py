@@ -4,8 +4,7 @@
 # Copyright (c) 2024 Great Scott Gadgets <info@greatscottgadgets.com>
 # SPDX-License-Identifier: BSD-3-Clause
 
-# SPI Flash Controller - Based on LiteSPI (https://github.com/litex-hub/litespi)
-# GSG adapted LiteSPI's SPI controller design for LUNA-SoC with Amaranth HDL
+# Based on code from LiteSPI
 
 from amaranth             import Module, DomainRenamer, Signal, unsigned
 from amaranth.lib         import wiring
@@ -45,10 +44,7 @@ class SPIController(wiring.Component):
 
             select : SPI chip select signal.
         """
-        def __init__(self):
-            super().__init__({
-                "select": csr.Field(csr.action.W, unsigned(1))
-            })
+        select : csr.Field(csr.action.W, unsigned(1))
 
     class Status(csr.Register, access="r"):
         """Status register
@@ -56,11 +52,8 @@ class SPIController(wiring.Component):
              rx_ready : RX FIFO contains data.
              tx_ready : TX FIFO ready to receive data.
         """
-        def __init__(self):
-            super().__init__({
-                "rx_ready": csr.Field(csr.action.R, unsigned(1)),
-                "tx_ready": csr.Field(csr.action.R, unsigned(1))
-            })
+        rx_ready : csr.Field(csr.action.R, unsigned(1))
+        tx_ready : csr.Field(csr.action.R, unsigned(1))
 
     class Data(csr.Register, access="rw"):
         """Data register
